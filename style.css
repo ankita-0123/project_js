@@ -1,17 +1,20 @@
 h1{
     color:brown;
-    text-align: center;
+    text-align: left;
+  
 }
 form{
     color: blueviolet;
     text-align: left;
-    margin: 0px;
+    
+    
 }
 button{
     color: blue;
 }
 body{
     background-color: bisque;
+
 }
 input{
     width: 200px;

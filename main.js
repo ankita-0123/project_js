@@ -1,41 +1,92 @@
-function showNewUserOnScreen(user){
-    document.getElementById('name').value = '';
-    document.getElementById('amount').value = '';
-    document.getElementById('category').value ='';
-    document.getElementById('date').value ='';
+let btn = document.getElementById("button");
 
-    if(localStorage.getItem(user.name) !== null){
-        removeUserFromScreen(user.name)
-    }
+btn.addEventListener("click", btnClicked);
 
-    const parentNode = document.getElementById('listOfUsers');
-    const childHTML = `<li id=${user.name}> ${user.amount} - ${user.name}
-                            <button onclick=deleteUser('${user.name}')> Delete User </button>
-                            <button onclick=editUserDetails('${user.name}','${user.amount}','${user.category}'.'${user.date}')>Edit User </button>
-                         </li>`
+function btnClicked(e) {
+	e.preventDefault();
+	console.log("button clicked");
+	let amountText = document.getElementById("expenseAmount").value;
+	let descriptionText = document.getElementById("Description").value;
+	let categText = document.getElementById("Category").value;
 
-    parentNode.innerHTML = parentNode.innerHTML + childHTML;
+	const obj = {
+		amountText,
+		descriptionText,
+		categText,
+	};
+
+	localStorage.setItem(amountText, JSON.stringify(obj));
+
+	// Getting details
+	let getItems = JSON.parse(localStorage.getItem(amountText));
+
+	console.log(getItems);
+	getExpenseList(getItems);
 }
 
+function getExpenseList(item) {
+	const itemList = document.getElementById("itemList");
+	listArr = Object.values(item);
 
-function editUserDetails(name, amount, category, date){
+	// creating li to display on the UI
+	const li = document.createElement("li");
+	li.id = `${item.amountText}`;
+	li.appendChild(
+		document.createTextNode(
+			`${item.amountText}, ${item.descriptionText}, ${item.categText}`
+		)
+	);
+	itemList.appendChild(li);
 
-    document.getElementById('name').value = name;
-    document.getElementById('amount').value = amount;
-    document.getElementById('category').value =category;
-    document.getElementById('date').value =date;
+	// creating edit button
+	let editbtn = document.createElement("button");
+	editbtn.id = "edit";
+	editbtn.appendChild(document.createTextNode("edit expense"));
+	editbtn.onclick = function () {
+		console.log("edit clicked");
+		editUser(item.amountText, item.descriptionText, item.categText);
+	};
+	li.appendChild(editbtn);
 
+	let delBtn = document.createElement("button");
+	delBtn.id = "delete";
+	delBtn.appendChild(document.createTextNode("delete expense"));
+	delBtn.onclick = function () {
+		deleteUser(item.amountText);
+	};
 
-    deleteUser(name)
- }
-
-function deleteUser(name)
-function removeUserFromScreen(name){
-    const parentNode = document.getElementById('listOfUsers');
-    const childNodeToBeDeleted = document.getElementById(name);
-
-    parentNode.removeChild(childNodeToBeDeleted)
-    if(childNodeToBeDeleted) {
-        parentNode.removeChild(childNodeToBeDeleted)
-    }
+	li.appendChild(delBtn);
+	itemList.appendChild(li);
 }
+
+function editUser(amount, desc, category) {
+	console.log("edit invoked");
+	document.getElementById("expenseAmount").value = amount;
+	document.getElementById("Description").value = desc;
+	document.getElementById("Category").value = category;
+	deleteUser(amount);
+}
+
+function deleteUser(amount) {
+	console.log("delete invoked");
+	localStorage.removeItem(amount);
+	removeUser(amount);
+}
+
+function removeUser(amount) {
+	let ul = document.getElementById("itemList");
+	let li = document.getElementById(amount);
+	ul.removeChild(li);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+	const localStorageObj = localStorage;
+	const localstoragekeys = Object.keys(localStorageObj);
+
+	for (var i = 0; i < localstoragekeys.length; i++) {
+		const key = localstoragekeys[i];
+		const userDetailsString = localStorageObj[key];
+		const userDetailsObj = JSON.parse(userDetailsString);
+		getExpenseList(userDetailsObj);
+	}
+});

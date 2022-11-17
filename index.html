@@ -1,46 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Expense Traker</title>
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" 
-        rel="stylesheet">
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Expense Tracker</title>
         <link rel="stylesheet" href="style.css">
-    </head>
-    <header>
-        <h1 Class="title">Expense Traker:</h1>
-    </header>
-    <body>
-            <form  onsubmit="saveToLocalStorage(event)">
-                <label> Name:</label>
-                <input id='username' type="text" name="username"  required/><br><br>
-                <label>Amount:</label>
-                <select id="amount">
-                    <option value="choose one">Choose one...</option>
-                    <option value="10000">10000</option>
-                    <option value="20000">20000</option>
-                    <option value="30000">30000</option>
-                    <option value="40000">40000</option>
-                    <option value="50000">50000</option>
-                </select><br><br>
-                <label>Category:</label>
-                <select id="category">
-                    <option value="choose">Choose one...</option>
-                    <option value="electricity">electricity</option>
-                    <option value="rent">rent</option>
-                    <option value="food">food</option>
-                    <option value="cable bill">cable bill</option>
-                </select><br><br>
-                <label>Date:</label>
-                <input id="'date" type="date" name="date"/><br><br>
-                <button> Add Expense </button>
-            </form>
-            <ul id='listOfUsers'></ul>
-
-            <script src="main.js"></script>
-
-                
-                
-               
-           
-    </body>
+	</head>
+	<body>
+		<h1>Expense Tracker</h1>
+		<form>
+			<label for="expenseAmount">Expense Amount</label>
+			<input type="text" name="expenseAmount" id="expenseAmount" />
+			<label for="Description">Description</label>
+			<input type="text" name="Description" id="Description" />
+			<label for="Category">Category</label>
+			<select name="Category" id="Category">
+				<option value="fuel">fuel</option>
+				<option value="food">food</option>
+				<option value="electricity">electricity</option>
+				<option value="movie">movie</option>
+			</select>
+			<button id="button">Add Expense</button>
+		</form>
+		<ul id="itemList"></ul>
+		<script src="main.js"></script>
+	</body>
 </html>
